@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI Style Transfer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      display: inline-block;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input[type="file"] {
+      margin: 10px 0;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+    #resultImage {
+      margin-top: 30px;
+      max-width: 80%;
+      border: 5px solid #ccc;
+      border-radius: 10px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎨 AI Style Transfer</h1>
+
+  <form id="styleForm" enctype="multipart/form-data">
+    <label><strong>Content Image:</strong></label><br />
+    <input type="file" name="content_image" accept="image/*" required /><br /><br />
+    
+    <label><strong>Style Image:</strong></label><br />
+    <input type="file" name="style_image" accept="image/*" required /><br /><br />
+    
+    <button type="submit">Stylize</button>
+  </form>
+
+  <div>
+    <h2>Stylized Output</h2>
+    <img id="resultImage" src="" alt="Stylized Image">
+  </div>
+
+  <script>
+    const form = document.getElementById('styleForm');
+    form.onsubmit = async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+
+      try {
+        const response = await fetch('/stylize', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (response.ok) {
+          const blob = await response.blob();
+          const url = URL.createObjectURL(blob);
+          const resultImage = document.getElementById('resultImage');
+          resultImage.src = url;
+          resultImage.style.display = 'block';
+        } else {
+          alert('Failed to generate stylized image.');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('An error occurred during the request.');
+      }
+    };
+  </script>
+
+</body>
+</html>
