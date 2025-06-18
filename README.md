@@ -14,5 +14,13 @@
 
 📦AI-Style-Transfer
 ├── UI.py # Streamlit frontend interface
-├── style_transfer.py # Local VGG19-based style transfer backend (optional)
+
+
+
+├── style_transfer.py # Local VGG19-based style transfer backend 
+
+
+
+
+
 ├── README.md # Project documentation
